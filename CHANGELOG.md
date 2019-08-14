@@ -1,7 +1,8 @@
 # CHANGELOG
 
 
-### Version 1.0.0
+## Version 1.0.0
+
 1. 支持多包名apk遍历打包
 2. 修改脚本路径为绝对路径，兼容mac windows，解决mac只能放在用户目录下使用
 3. 更改match匹配文件格式为json，加强可读性、规避低级书写错误，并支持对json文件的扩展
@@ -14,7 +15,8 @@
 
 
 
-### Version beta
+## Version beta
+
 1. 读取match文件:优化读取空行、无意义符号数据处理，兼容mac、windows平台
 2. 解决windows平台下执行反编译、回包cmd命令进程挂起导致需手动继续问题，实现真正自动化
 3. 排除mac系统文件夹下特有.DS_store隐藏文件对文件操作导致的解压缩异常
