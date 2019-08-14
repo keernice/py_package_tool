@@ -22,6 +22,7 @@
 * 修复若干bug
 
 
+
 ### Version beta
 - 上线 测试版python脚本打包
 - 修复若干已知 bug
