@@ -123,7 +123,7 @@ def recompile(appName, logoName, apkOutDirName):
         try:
             os.system(cmd)
             print('完成重新编译回包')
-            input('请按下任意键退出控制台窗口...')
+
         except:
             print('重新编译回包异常')
             cmd = "echo {0}>>{1}".format(apk, "重新编译回包异常")
@@ -133,8 +133,7 @@ def recompile(appName, logoName, apkOutDirName):
 
 
 # 遍历修改替换apk反编译项目文件夹内容(limit res dir)
-def modifyapp(apk):
-    apkname = apk.split(".")[0]
+def modifyapp(apkname):
     for aName in appNameList:
         if aName in match:
             logoList = match.get(aName)
@@ -172,7 +171,7 @@ def replaceAppName(targetAppName):
         tree.write(local_config['strings_xml'], "UTF-8")
         print('完成替换appName')
     else:
-        print('在strings.xml中没有定义app_name，导致无法替换，请检查strings.xml文件')
+        print('**********在strings.xml中没有定义app_name，导致无法替换，请检查strings.xml文件**********')
     pass
 
 
@@ -320,6 +319,7 @@ def syncQueueControl():
 
     endTime = datetime.datetime.now()
     print("all work is done! 总耗时/秒：", (endTime - startTime).total_seconds())
+    input('请按下任意键退出控制台窗口...')
     pass
 
 

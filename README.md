@@ -14,6 +14,13 @@
 
 ## 发布历史
 
+
+### Version 1.0.1
+* 修复回编译时对apkOut目录遍历查询、判断是否与当前正在修改的apk名称相同时，recompile函数传入apkOutDirName参数错误
+  导致无法回包bug.
+* 修复'input('请按下任意键退出控制台窗口...')'每次回包完成时暂停的bug
+
+
 ### Version 1.0.0
 * 支持apks文件夹目录下多包名遍历反编译、修改资源、回包流程
 * 修复在mac下AutoPack和generateAPK只能放在用户目录下bug
