@@ -7,12 +7,22 @@
 * 支持自动化反编译sdk、替换res下资源、回包apk
 * 支持apks文件夹下多applicationid母包遍历反编译、资源替换、回包
 * 支持appName与appIcon多对多资源替换打包
+* 支持apk主题色更改
+* 支持apk启动页启动图更改
 * 兼容mac、windows平台
 * 需维护match.json匹配文件
 * 支持双击可执行文件运行，脱离命令行,不需要安装python环境
 
 
 ## 发布历史
+
+
+### Version 1.0.2
+* 支持apk主题色更改
+* 支持apk启动页启动图更改
+* match.json匹配文件结构优化
+* 优化异常输出(警告、错误格式化背景输出)
+
 
 
 ### Version 1.0.1

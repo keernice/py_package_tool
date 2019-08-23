@@ -1,11 +1,11 @@
 {
-  "match": {
-    "10000_TCYJClient-skinPeeler-publish_v3.3.1_20190820": [
+  "10000_TCYJClient-skinPeeler-publish_v3.3.1_20190822": {
+    "theme": {
+      "subject_color": "#F24386",
+      "notification_color": "#F24386"
+    },
+    "match": [
       {
-        "theme": {
-          "subject_color": "#F24386",
-          "notification_color": "#F24386"
-        },
         "name": "约陌聊天交友",
         "icon": [
           {
