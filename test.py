@@ -2,10 +2,14 @@ import os
 import json
 import sys
 import traceback
+import wrapper
+import LogUtil
 
 t = ['见面', '相亲', '本地寻爱', '附近约会']
 
 matchFile = 'generateAPK/match.txt'
+oneFile = 'generateAPK/loading1.jpg'
+one2File = 'generateAPK/recompileApk/loading1.png'
 matchJsonFile = 'generateAPK/match.json'
 match = {}
 
@@ -211,6 +215,42 @@ def testPoint():
     pass
 
 
+def create_output_apk_name(name):
+    print(name.splash_pic_name)
+    print(name.apk_name)
+    pass
+
+
+def testListDir():
+    create_output_apk_name(wrapper.Name_family.Builder().apkname('111').splash_picname('222').build())
+    pass
+
+
+def method1():
+    pass
+
+
+def create_output_apk_name():
+    output_apk_name = ''
+
+    output_apk_name.join(['111'])
+
+    print(output_apk_name)
+
+    output_apk_name.join(['222'])
+
+    print(output_apk_name)
+
+    # print('333')
+
+    print('-'.join(['aa']))
+
+    LogUtil.error('图片资源替换完成')
+    LogUtil.warning('图片资源替换完成')
+
+
+    pass
+
 if __name__ == '__main__':
     # generateDict()
     # generateDict3()
@@ -219,4 +259,6 @@ if __name__ == '__main__':
     # handleJson(data)
 
     # dirtest()
-    testPoint()
+    # testPoint()
+    # testListDir()
+    create_output_apk_name()
