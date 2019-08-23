@@ -103,3 +103,6 @@ venv.bak/
 # mypy
 .mypy_cache/
 .idea
+generateAPK/apkOut
+generateAPK/apks
+generateAPK/recompileApk
