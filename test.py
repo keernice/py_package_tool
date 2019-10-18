@@ -2,8 +2,13 @@ import os
 import json
 import sys
 import traceback
+from typing import List
+
+import lxml
+from lxml import etree
 import wrapper
 import LogUtil
+from urllib.parse import urlparse
 
 t = ['见面', '相亲', '本地寻爱', '附近约会']
 
@@ -11,7 +16,14 @@ matchFile = 'generateAPK/match.txt'
 oneFile = 'generateAPK/loading1.jpg'
 one2File = 'generateAPK/recompileApk/loading1.png'
 matchJsonFile = 'generateAPK/match.json'
+matchJsonFile22 = 'generateAPK/matchtest2.json'
+manifest = 'generateAPK/apkOut/10000_TCYJClient-skinPeeler-release_v3.3.1_20191017/AndroidManifest.xml'
+xmlFile = 'Manifest.xml'
+xmlFile3 = '222.xml'
 match = {}
+
+apkPath = 'generateAPK/apkOut/'
+xmlConfigPath = 'generateAPK/config.xml'
 
 appNameList = []
 
@@ -248,8 +260,161 @@ def create_output_apk_name():
     LogUtil.error('图片资源替换完成')
     LogUtil.warning('图片资源替换完成')
 
+    pass
+
+
+import xmltodict
+import json
+import collections
+import xml.etree.ElementTree as ET
+
+xml2file = '111.xml'
+
+
+def paresXML():
+    with open(xmlFile) as f:
+        manifest = xmltodict.parse(f.read(), encoding='UTF-8')
+        # print(dict(manifest))
+        # json.loads(manifest, object_pairs_hook=collections.OrderedDict)
+        print(xmltodict.unparse(manifest, encoding='UTF-8'))
+    pass
+
+
+# from lxml import etree
+# import lxml
+
+# ns = {"d": "http://schemas.android.com/apk/res/android"}
+
+path = '//*[starts-with(@*,"com.keyou.jxyhclient")]'
+path2 = '//*[contains(@*,{package})]'.format(package='com.keyou.jxyhclient')
+path3 = '//*[@d:name="UMENG_CHANNEL"]'
+print(path3)
+
+
+def paresXML2():
+    # print(path2)
+    tree = etree.parse(xmlFile)
+    doc = tree.xpath(path2)
+    for ele in doc:
+        # print(ele)
+        attributes = ele.attrib
+        for n in attributes.items():
+            print(n)
+            if n[1].startswith('com.keyou.jxyhclient'):
+                newValue = n[1].replace('com.keyou.jxyhclient', 'yanke123')
+                ele.set(n[0], newValue)
+                # print(ele)
+    # tree.write(xmlFile, pretty_print=True, encoding='utf-8', xml_declaration=True)
+    pass
+
+
+def paresXML4():
+    # print(path2)
+    tree = etree.parse(xmlFile)
+    doc = tree.xpath(path3, namespaces={'d': 'http://schemas.android.com/apk/res/android'})
+    print(doc)
+    for ele in doc:
+        attributes = ele.attrib
+        print(ele)
+    pass
+
+
+# 设置当前包名
+def set_current_package():
+    tree = ET.parse(xmlFile)
+    root = tree.getroot()
+    attrs = root.attrib
+    local_config['current_package_name'] = attrs['package']
+    print(local_config['current_package_name'])
 
     pass
+
+
+def paresXML3():
+    d = False
+    for i in range(2):
+        print(i)
+        # if d:
+        #     break
+        # else:
+        #     break
+    pass
+
+
+# from auto import local_config
+
+grammar = {
+    'manifest_package': '/manifest[@package]'
+}
+
+
+def readxml():
+    manifest = 'generateAPK/apkOut/10000_TCYJClient-skinPeeler-publish_v3.3.1_20190822/AndroidManifest.xml'
+    tree = etree.parse(manifest)
+    attr_value = tree.xpath(grammar['manifest_package'])
+    # print(attr_value.index('package'))
+    for ele in attr_value:
+        attributes = ele.attrib
+        # k=attributes.get('package')
+        # for n in attributes.items():
+        k = attributes.has_key('package')
+        print(k)
+
+    pass
+
+
+newpath = 'generateAPK/source/'
+
+import datetime
+
+
+def copytest():
+    # if not os.path.exists(newpath) or not os.path.isdir(newpath):
+    #     os.mkdir(newpath)
+    startTime = datetime.datetime.now()
+    path = 'generateAPK/apkOut/10000_TCYJClient-skinPeeler-publish_v3.3.1_20190822/res'
+    dst = shutil.copytree(path, newpath)
+    print(222)
+    print(dst)
+
+    endTime = datetime.datetime.now()
+    print("all work is done! 总耗时/秒：", (endTime - startTime).total_seconds())
+
+    pass
+
+
+app = []
+
+import logging
+
+
+def dicttest():
+    # list = ['1', '2', '3']
+    # print(list.__contains__('3'))
+    try:
+        raise RuntimeError('999')
+    except Exception as e:
+        # logging.error('2222')
+        raise
+
+    pass
+
+
+def dicy():
+    print(dicy1())
+    pass
+
+
+def dicy1():
+    print('111')
+    return dicy2()
+    pass
+
+
+def dicy2():
+    print('2222')
+    pass
+
 
 if __name__ == '__main__':
     # generateDict()
@@ -261,4 +426,10 @@ if __name__ == '__main__':
     # dirtest()
     # testPoint()
     # testListDir()
-    create_output_apk_name()
+    # create_output_apk_name()
+    # paresXML2()
+
+    # paresXML4()
+    # copytest()
+    # readxml()
+    dicy()

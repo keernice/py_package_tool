@@ -1,0 +1,80 @@
+{
+  "multiple_project": true,
+  "10000_TCYJClient-skinPeeler-publish_v3.3.1_20190822": [
+    {
+      "application_id": "com.hzsj.zxzdxz",
+      "theme": {
+        "subject_color": "#F24386",
+        "notification_color": "#F24386"
+      },
+      "match": [
+        {
+          "name": "约陌聊天交友",
+          "icon": [
+            {
+              "splash_launcher": "loading2",
+              "ic_launcher": [
+                "3601181",
+                "3601261"
+              ]
+            },
+            {
+              "ic_launcher": [
+                "3601261"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "陌爱陌约",
+          "icon": [
+            {
+              "splash_launcher": "loading1",
+              "ic_launcher": [
+                "3601341"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "application_id": "com.cimob.xmviolet",
+      "theme": {
+        "subject_color": "#F24386",
+        "notification_color": "#F24386"
+      },
+      "match": [
+        {
+          "name": "约陌聊天交友",
+          "icon": [
+            {
+              "ic_launcher": [
+                "3601181",
+                "3601261"
+              ]
+            },
+            {
+              "ic_launcher": [
+                "3601261"
+              ],
+              "splash_launcher": "loading2"
+            }
+          ]
+        },
+        {
+          "name": "陌爱陌约",
+          "icon": [
+            {
+              "ic_launcher": [
+                "3601341"
+              ],
+              "splash_launcher": "loading1"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+
