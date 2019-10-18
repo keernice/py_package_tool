@@ -1,6 +1,15 @@
 # CHANGELOG
 
 
+### Version 2.0
+* 配置文件使用xml替换json(match.json-->config.xml),功能逻辑发生了比较大的改变
+* 增加umeng_channel渠道号更改功能
+* 增加app_version应用版本号更改功能
+* 增加域名组更改功能,即SERVER_HOST、SERVER_HOST_TEMP、RETRIEVE_HOST、RETIEVE_HOST_TEMP的更改
+* 更好的异常处理机制
+* 优化删除冗余
+
+
 ## Version 1.0.3
 1. 反编译后读取apk没有任何更改的原始资源 保证由于json配置项不完全，导致修改项被覆盖，
     读取原始资源用来还原apk在json中未配置修改项
