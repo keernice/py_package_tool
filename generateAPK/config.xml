@@ -10,26 +10,7 @@
         <app-icon>3601181</app-icon>
         <splash-icon>loading2</splash-icon>
         <app-version>331</app-version>
-        <umeng-channel>
-            111,222
-        </umeng-channel>
-        <domain-group>
-            <server-host>http://as.huisut.cn:9800</server-host>
-            <server-host-temp>http://as.hstng.cn:9800</server-host-temp>
-            <retrieve-host>http://qs.hansix.cn:9800</retrieve-host>
-            <retrieve-host-temp>http://47.95.139.155:9800</retrieve-host-temp>
-        </domain-group>
-    </decompile>
-    <decompile target="10000_TCYJClient-skinPeeler-release_v3.3.1_20191017">
-        <application-id>com.hzsj.zxzdxz</application-id>
-        <theme isReplace="true">
-            <subject-color>#F24386</subject-color>
-            <notification-color>#F24386</notification-color>
-        </theme>
-        <app-name>约友</app-name>
-        <app-icon>3601261</app-icon>
-        <splash-icon>loading1</splash-icon>
-        <app-version>331</app-version>
+        <app-version-name>3.3.9</app-version-name>
         <umeng-channel>
             111,222
         </umeng-channel>

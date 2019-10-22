@@ -62,6 +62,7 @@ ELEMENT_TAG_APP_ICON = 'app-icon'
 ELEMENT_TAG_SPLASH_ICON = 'splash-icon'
 ELEMENT_TAG_UMENG_CHANNEL = 'umeng-channel'
 ELEMENT_TAG_APP_VERSION = 'app-version'
+ELEMENT_TAG_APP_VERSION_NAME = 'app-version-name'
 ELEMENT_TAG_DOMAIN_GROUP = 'domain-group'
 ELEMENT_TAG_SERVER_HOST = 'server-host'
 ELEMENT_TAG_SERVER_HOST_TEMP = 'server-host-temp'
@@ -298,7 +299,6 @@ def replace_umeng_channel(umeng_channel: str):
     # //title[@lang='eng']
     try:
         print('开始友盟渠道号替换流程')
-        namespace_in_attrib_key = '{' + NAMESPACE_MANIFEST + '}'
         etree.register_namespace('android', NAMESPACE_MANIFEST)
 
         success = False
@@ -337,7 +337,7 @@ def replace_umeng_channel(umeng_channel: str):
 def replace_umeng_channel2(umeng_channel: str):
     # //title[@lang='eng']
     try:
-        print('开始友盟渠道号替换流程')
+        print('开始替换友盟渠道号' + umeng_channel)
         namespace_in_attrib_key = '{' + NAMESPACE_MANIFEST + '}'
         etree.register_namespace('android', NAMESPACE_MANIFEST)
 
@@ -352,10 +352,10 @@ def replace_umeng_channel2(umeng_channel: str):
                 success = True
 
         if not success:
-            raise RuntimeError('友盟渠道号替换流程异常')
+            raise RuntimeError('完成替换友盟渠道号' + umeng_channel)
         else:
             tree.write(manifest_xml, pretty_print=True, encoding='utf-8', xml_declaration=True)
-            print('完成友盟渠道号替换流程')
+            print('完成替换友盟渠道号' + umeng_channel)
     except Exception as e:
         logging.exception(e)
         raise
@@ -392,9 +392,25 @@ def replace_app_version(version_code: str):
         tree = ET.parse(local_config['manifest_xml'])
         root = tree.getroot()
         root.attrib[namespace + 'versionCode'] = version_code
-        root.attrib[namespace + 'versionName'] = ('.'.join(version_code))
         tree.write(local_config['manifest_xml'], "UTF-8")
         print('完成版本号替换流程')
+    except Exception as e:
+        logging.exception(e)
+        raise
+    pass
+
+
+# 替换versionname
+def replace_app_version_name(app_version_name: str):
+    try:
+        print('开始app_version_name替换流程')
+        namespace = '{' + NAMESPACE_MANIFEST + '}'
+        ET.register_namespace("android", NAMESPACE_MANIFEST)
+        tree = ET.parse(local_config['manifest_xml'])
+        root = tree.getroot()
+        root.attrib[namespace + 'versionName'] = app_version_name
+        tree.write(local_config['manifest_xml'], "UTF-8")
+        print('完成app_version_name替换流程')
     except Exception as e:
         logging.exception(e)
         raise
@@ -417,6 +433,8 @@ def modifyapp2(apkname):
 
     if ELEMENT_TAG_APP_VERSION in boss2:
         replace_app_version(boss2[ELEMENT_TAG_APP_VERSION])
+    if ELEMENT_TAG_APP_VERSION_NAME in boss2:
+        replace_app_version_name(boss2[ELEMENT_TAG_APP_VERSION_NAME])
 
     if ELEMENT_TAG_DOMAIN_GROUP in boss2:
         domain_dict: dict = boss2[ELEMENT_TAG_DOMAIN_GROUP]
@@ -426,7 +444,6 @@ def modifyapp2(apkname):
     if ELEMENT_TAG_UMENG_CHANNEL in boss2:
         umeng_channel_list: List[str] = boss2[ELEMENT_TAG_UMENG_CHANNEL]
         for umeng_channel in umeng_channel_list:
-            LogUtil.error('umeng_channel  ' + umeng_channel)
             replace_umeng_channel2(umeng_channel)
             index = umeng_channel_list.index(umeng_channel)
             # 使用三木运算符
@@ -511,7 +528,6 @@ def search_drawable_in_project(sourcedir, target_file_path, icon_wrapper):
             if os.path.splitext(target_file_path) == os.path.splitext(sourcedir):
                 shutil.copy2(target_file_path, sourcedir)
             else:
-                LogUtil.error(target_file_path)
                 os.remove(sourcedir)
                 shutil.copy(target_file_path, os.path.split(sourcedir)[0])
             global drawable_replaced
@@ -688,6 +704,12 @@ def parseXML(decompile_element: ET.Element):
         app_version_text: str = format_something(app_version_element.text)
         if app_version_text and len(app_version_text) > 0:
             boss2[ELEMENT_TAG_APP_VERSION] = app_version_text
+
+    app_version_name_element = decompile_element.find(ELEMENT_TAG_APP_VERSION_NAME)
+    if app_version_name_element is not None and isinstance(app_version_name_element, ET.Element):
+        app_version_name_text: str = format_something(app_version_name_element.text)
+        if app_version_name_text and len(app_version_name_text) > 0:
+            boss2[ELEMENT_TAG_APP_VERSION_NAME] = app_version_name_text
 
     # 支持中英文逗号
     umeng_channel_element = decompile_element.find(ELEMENT_TAG_UMENG_CHANNEL)
