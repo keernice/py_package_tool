@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 产品主色 -->
+    <color name="subject_color">#8D57DA</color>
+    <!-- 自定义通知背景颜色 -->
+    <color name="custom_notification_layout_color">#8D57DA</color>
+
+</resources>

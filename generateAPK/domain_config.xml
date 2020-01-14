@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<domain-config>
+
+    <!--===================商店===================-->
+    <domain-group domain-group-name="YSZR_STORE_DN">
+        http://as.huisut.cn:9800k,
+        http://as.hstng.cn:9800k,
+        http://qs.hansix.cn:9800k,
+        http://47.95.139.155:9800k
+    </domain-group>
+    <domain-group domain-group-name="KYSJ_STORE_DN">
+        http://as.huisut.cn:9800,
+        http://as.hstng.cn:9800,
+        http://qs.hansix.cn:9800,
+        http://47.95.139.155:9800
+    </domain-group>
+    <domain-group domain-group-name="JMKJ_STORE_DN">
+        http://as.huisut.cn:9800,
+        http://as.hstng.cn:9800,
+        http://qs.hansix.cn:9800,
+        http://47.95.139.155:9800
+    </domain-group>
+
+
+    <!--================信息流=================-->
+    <domain-group domain-group-name="JMKJ_STORE_DN">
+        http://as.huisut.cn:9800,
+        http://as.hstng.cn:9800,
+        http://qs.hansix.cn:9800,
+        http://47.95.139.155:9800
+    </domain-group>
+    <domain-group domain-group-name="JMKJ_STORE_DN">
+        http://as.huisut.cn:9800,
+        http://as.hstng.cn:9800,
+        http://qs.hansix.cn:9800,
+        http://47.95.139.155:9800
+    </domain-group>
+
+
+    <!--=================线下==================-->
+    <domain-group domain-group-name="JMKJ_STORE_DN">
+        http://as.huisut.cn:9800,
+        http://as.hstng.cn:9800,
+        http://qs.hansix.cn:9800,
+        http://47.95.139.155:9800
+    </domain-group>
+    <domain-group domain-group-name="JMKJ_STORE_DN">
+        http://as.huisut.cn:9800,
+        http://as.hstng.cn:9800,
+        http://qs.hansix.cn:9800,
+        http://47.95.139.155:9800
+    </domain-group>
+
+
+    <!--================定制====================-->
+    <domain-group domain-group-name="JMKJ_STORE_DN">
+        http://as.huisut.cn:9800,
+        http://as.hstng.cn:9800,
+        http://qs.hansix.cn:9800,
+        http://47.95.139.155:9800
+    </domain-group>
+    <domain-group domain-group-name="JMKJ_STORE_DN">
+        http://as.huisut.cn:9800,
+        http://as.hstng.cn:9800,
+        http://qs.hansix.cn:9800,
+        http://47.95.139.155:9800
+    </domain-group>
+
+
+</domain-config>

@@ -52,6 +52,10 @@ recompileApkPath = baseAbsPath + 'generateAPK/recompileApk/'
 repackagedAppPath = baseAbsPath + 'generateAPK/repackage/repackagedAPK/'
 matchJsonFile = baseAbsPath + 'generateAPK/matchtest.json'
 xmlConfigPath = baseAbsPath + 'generateAPK/config.xml'
+xmlResourceConfigPath = baseAbsPath + 'generateAPK/resource_mapping.xml'
+resourceFolderPath = baseAbsPath + 'generateAPK/resource'
+xmlDomainConfigPath = baseAbsPath + 'generateAPK/domain_config.xml'
+xmlDomainMappingPath = baseAbsPath + 'generateAPK/domain_mapping.xml'
 
 ELEMENT_TAG_APPLICATION_ID = 'application-id'
 ELEMENT_TAG_THEME = 'theme'
@@ -63,24 +67,19 @@ ELEMENT_TAG_SPLASH_ICON = 'splash-icon'
 ELEMENT_TAG_UMENG_CHANNEL = 'umeng-channel'
 ELEMENT_TAG_APP_VERSION = 'app-version'
 ELEMENT_TAG_APP_VERSION_NAME = 'app-version-name'
-ELEMENT_TAG_DOMAIN_GROUP = 'domain-group'
-ELEMENT_TAG_SERVER_HOST = 'server-host'
-ELEMENT_TAG_SERVER_HOST_TEMP = 'server-host-temp'
-ELEMENT_TAG_RETRIEVE_HOST = 'retrieve-host'
-ELEMENT_TAG_RETRIEVE_HOST_TEMP = 'retrieve-host-temp'
+# ELEMENT_TAG_DRAWABLE_THEME = 'drawable-theme'
+ELEMENT_TAG_APP_THEME = 'app-theme'
+ELEMENT_TAG_DOMAIN_SWITCH = 'domain-switch'
+
+SERVER_HOST = 'SERVER_HOST'
+SERVER_HOST_TEMP = 'SERVER_HOST_TEMP'
+RETRIEVE_HOST = 'RETRIEVE_HOST'
+RETRIEVE_HOST_TEMP = 'RETRIEVE_HOST_TEMP'
 
 THEME_COLOR_SUBJECT = 'subject-color'
 THEME_COLOR_NOTIFICATION = 'notification-color'
 
 NAMESPACE_MANIFEST = 'http://schemas.android.com/apk/res/android'
-
-# match.json中package_info列表下jsonObject中的dict
-domain = {
-    ELEMENT_TAG_SERVER_HOST: 'SERVER_HOST',
-    ELEMENT_TAG_SERVER_HOST_TEMP: 'SERVER_HOST_TEMP',
-    ELEMENT_TAG_RETRIEVE_HOST: 'RETRIEVE_HOST',
-    ELEMENT_TAG_RETRIEVE_HOST_TEMP: 'RETRIEVE_HOST_TEMP'
-}
 
 drawable_replaced = False
 
@@ -223,46 +222,46 @@ def obtain_color(color_value):
     pass
 
 
-def replace_real_skin(key, color_except_prefix):
-    print('开始替换主题颜色')
-    num = 0
-    tree = ET.parse(local_config['colors_xml'])
-    root = tree.getroot()
-    for child in root.findall('color'):
-        if child.attrib['name'] == theme[key]:
-            child.text = obtain_color(color_except_prefix)
-            num += 1
-
-    if num == 1:
-        tree.write(local_config['colors_xml'], "UTF-8")
-        print('完成替换主题颜色')
-    else:
-        LogUtil.warning('在colors.xml中没有定义subject_color和notification_color，导致无法替换，请检查colors.xml文件')
-    pass
+# def replace_real_skin(key, color_except_prefix):
+#     print('开始替换主题颜色')
+#     num = 0
+#     tree = ET.parse(local_config['colors_xml'])
+#     root = tree.getroot()
+#     for child in root.findall('color'):
+#         if child.attrib['name'] == theme[key]:
+#             child.text = obtain_color(color_except_prefix)
+#             num += 1
+#
+#     if num == 1:
+#         tree.write(local_config['colors_xml'], "UTF-8")
+#         print('完成替换主题颜色')
+#     else:
+#         LogUtil.warning('在colors.xml中没有定义subject_color和notification_color，导致无法替换，请检查colors.xml文件')
+#     pass
 
 
 # 替换主题color
-def replace_theme2():
-    try:
-        if ELEMENT_TAG_THEME not in boss2:
-            return
-
-        theme_dict = boss2[ELEMENT_TAG_THEME]
-
-        for k, v in theme_dict.items():
-            if not v:
-                continue
-            # color_except_prefix标识除去'#'前缀的颜色值
-            if re.match(COLOR_HEX_REGULAR, v) is None:
-                LogUtil.error('十六进制主题颜色值不正确,请检查')
-                sys.exit()
-
-            color_except_prefix = v[1:len(v)]
-            replace_real_skin(k, color_except_prefix)
-    except Exception as e:
-        logging.exception(e)
-        raise
-    pass
+# def replace_theme2():
+#     try:
+#         if ELEMENT_TAG_THEME not in boss2:
+#             return
+#
+#         theme_dict = boss2[ELEMENT_TAG_THEME]
+#
+#         for k, v in theme_dict.items():
+#             if not v:
+#                 continue
+#             # color_except_prefix标识除去'#'前缀的颜色值
+#             if re.match(COLOR_HEX_REGULAR, v) is None:
+#                 LogUtil.error('十六进制主题颜色值不正确,请检查')
+#                 sys.exit()
+#
+#             color_except_prefix = v[1:len(v)]
+#             replace_real_skin(k, color_except_prefix)
+#     except Exception as e:
+#         logging.exception(e)
+#         raise
+#     pass
 
 
 # 更改包名
@@ -364,20 +363,20 @@ def replace_umeng_channel2(umeng_channel: str):
 
 def replace_domain(key, value: str):
     try:
-        print('开始替换domain: ' + domain[key])
+        print('开始替换' + key + '域名--' + value)
         isFinish = False
         tree = ET.parse(local_config['strings_xml'])
         root = tree.getroot()
         for child in root.findall('string'):
-            if child.attrib['name'] == domain[key]:
+            if child.attrib['name'] == key:
                 child.text = value.strip()
                 isFinish = True
 
         if isFinish:
             tree.write(local_config['strings_xml'], "UTF-8")
-            print('完成替换domain: ' + domain[key])
+            print('完成替换' + key + '域名--' + value)
         else:
-            raise RuntimeError('在strings.xml中没有定义' + domain[key] + '，导致无法替换，请检查strings.xml文件')
+            raise RuntimeError('在strings.xml中没有定义' + key + '，导致无法替换，请检查strings.xml文件')
     except Exception as e:
         logging.exception(e)
         raise
@@ -417,16 +416,178 @@ def replace_app_version_name(app_version_name: str):
     pass
 
 
+def loadResourceConfig():
+    tree = ET.parse(xmlResourceConfigPath)
+    return tree
+    pass
+
+
+def replace_drawable_skin(skin_folder_path: str):
+    for cur_folder, dir_names, file_names in os.walk(skin_folder_path):
+        for file in file_names:
+            print('开始替换皮肤--' + file)
+            search_resource_in_project(local_config['drawable_path'], cur_folder + os.sep + file)
+
+    pass
+
+
+def search_resource_in_project(sourcedir, target_file):
+    if os.path.isdir(sourcedir):
+        # 是文件夹，检索文件夹内文件递归
+        listdir = os.listdir(sourcedir)
+        for ld in listdir:
+            if os.path.isdir(ld) and ld.find('drawable-') < 0:
+                continue
+            path = sourcedir + os.sep + ld
+            search_resource_in_project(path, target_file)
+    else:
+        # 是文件,判断是否是要复制的文件
+        if os.path.split(sourcedir)[0].find('drawable-xh') > -1:
+            i = '123'
+
+        splitl = os.path.split(sourcedir)
+        targetl = os.path.split(target_file)
+        # print "src: "+splitl[1]+" tar: "+targetl[1]
+        if os.path.isfile(sourcedir) and targetl[1] == splitl[1]:
+            shutil.copy(target_file, sourcedir)
+            print('完成替换皮肤--' + targetl[1])
+        return
+    pass
+
+
+def replace_real_color_skin(color_skin_file_path: str):
+    try:
+        tree = ET.parse(color_skin_file_path)
+        root = tree.getroot()
+        color_dict = {}
+        for color in root.findall('color'):
+            color: ET.Element
+            color_dict[color.attrib['name']] = color.text
+
+        for key, v in color_dict.items():
+            if not v:
+                continue
+            # color_except_prefix标识除去'#'前缀的颜色值
+            if re.match(COLOR_HEX_REGULAR, v) is None:
+                LogUtil.error('十六进制主题颜色值不正确,请检查')
+                sys.exit()
+
+            color_except_prefix = v[1:len(v)]
+
+            print('开始替换主题颜色')
+            success = False
+            tree = ET.parse(local_config['colors_xml'])
+            root = tree.getroot()
+            for child in root.findall('color'):
+                if child.attrib['name'] == key:
+                    child.text = obtain_color(color_except_prefix)
+                    success = True
+
+            if success:
+                success = False
+                tree.write(local_config['colors_xml'], "UTF-8")
+                print('完成替换主题颜色')
+            else:
+                LogUtil.warning(local_config['colors_xml'] + '没有定义' + color_skin_file_path + '文件中的name字段，请检查colors.xml文件')
+
+    except Exception as e:
+        logging.exception(e)
+        raise
+    pass
+
+
+def replace_color_skin(color_skin_folder: str):
+    color_skin_file_path = color_skin_folder + os.sep + 'colors.xml'
+    if os.path.exists(color_skin_folder) and os.path.exists(color_skin_file_path):
+        replace_real_color_skin(color_skin_file_path)
+    pass
+
+
+def replace_skin(key: str):
+    resource_tree: ET.ElementTree = loadResourceConfig()
+    for drawable_ele in resource_tree.getroot().findall('theme'):
+        drawable_ele: ET.Element
+        if key != drawable_ele.attrib['applicationID']:
+            continue
+        skin_folder_name = drawable_ele.attrib['type']
+        drawable_skin_folder = resourceFolderPath + os.sep + skin_folder_name + os.sep + 'res' + os.sep + 'drawable-xhdpi'
+        color_skin_folder = resourceFolderPath + os.sep + skin_folder_name + os.sep + 'res' + os.sep + 'values'
+        replace_color_skin(color_skin_folder)
+        replace_drawable_skin(drawable_skin_folder)
+    pass
+
+
+def getDomainGroupByApplicationId(applicationID: str):
+    try:
+        tree = ET.parse(xmlDomainMappingPath)
+        root = tree.getroot()
+        for item in root.findall('item'):
+            item: ET.Element
+            if applicationID == item.attrib['applicationID']:
+                domain_group_name = item.attrib['unique']
+                return domain_group_name
+    except Exception as e:
+        print(e)
+        logging.exception(e)
+        raise
+    pass
+
+
+def getProcessedDomainGroupText(domain_group_ele: ET.Element):
+    if domain_group_ele is not None:
+        domain_group_text: str = domain_group_ele.text
+        domain_group_text = domain_group_text.replace('，', ',')
+        domain_group_text = format_something(domain_group_text)
+        if domain_group_text is not None and len(domain_group_text) > 0:
+            return domain_group_text.split(',')
+
+    pass
+
+
+def getDomainGroup(domain_group_name: str):
+    try:
+        tree = ET.parse(xmlDomainConfigPath)
+        root = tree.getroot()
+        for item in root.findall('domain-group'):
+            item: ET.Element
+            if domain_group_name == item.attrib['domain-group-name']:
+                domain_list: List[str] = getProcessedDomainGroupText(item)
+
+                return domain_list
+    except Exception as e:
+        print(e)
+        logging.exception(e)
+        raise
+    pass
+
+
+def replapce_domain(applicationID: str):
+    domain_group_name: str = getDomainGroupByApplicationId(applicationID)
+    if domain_group_name:
+        domain_list: List[str] = getDomainGroup(domain_group_name)
+        if len(domain_list) == 4:
+            domain = {}
+            domain[SERVER_HOST] = domain_list[0]
+            domain[SERVER_HOST_TEMP] = domain_list[1]
+            domain[RETRIEVE_HOST] = domain_list[2]
+            domain[RETRIEVE_HOST_TEMP] = domain_list[3]
+        for k, v in domain.items():
+            replace_domain(k, v)
+    pass
+
+
 def modifyapp2(apkname):
     replace_applicationID2(apkname)
 
-    replace_theme2()
-
     if ELEMENT_TAG_APP_NAME in boss2:
         replace_app_name(boss2[ELEMENT_TAG_APP_NAME])
+
+    icon_wrapper = wrapper.Icon(None, None, None, None)
     if ELEMENT_TAG_APP_ICON in boss2:
         icon_wrapper = wrapper.Icon(ELEMENT_TAG_APP_ICON, boss2[ELEMENT_TAG_APP_ICON], drawable_dict[ELEMENT_TAG_APP_ICON][1], drawable_dict[ELEMENT_TAG_APP_ICON][0])
         replace_drawable2(icon_wrapper)
+
+    splash_icon_wrapper = wrapper.Icon(None, None, None, None)
     if ELEMENT_TAG_SPLASH_ICON in boss2:
         splash_icon_wrapper = wrapper.Icon(ELEMENT_TAG_SPLASH_ICON, boss2[ELEMENT_TAG_SPLASH_ICON], drawable_dict[ELEMENT_TAG_SPLASH_ICON][1], drawable_dict[ELEMENT_TAG_SPLASH_ICON][0])
         replace_drawable2(splash_icon_wrapper)
@@ -436,10 +597,27 @@ def modifyapp2(apkname):
     if ELEMENT_TAG_APP_VERSION_NAME in boss2:
         replace_app_version_name(boss2[ELEMENT_TAG_APP_VERSION_NAME])
 
-    if ELEMENT_TAG_DOMAIN_GROUP in boss2:
-        domain_dict: dict = boss2[ELEMENT_TAG_DOMAIN_GROUP]
-        for k, v in domain_dict.items():
-            replace_domain(k, v)
+    if ELEMENT_TAG_APP_THEME in boss2:
+        replace_tag: str = boss2[ELEMENT_TAG_APP_THEME]
+        if replace_tag.find('true') > -1:
+            replace_skin(current_packages[apkname])
+            pass
+
+    # if ELEMENT_TAG_DRAWABLE_THEME in boss2:
+    #     replace_tag: str = boss2[ELEMENT_TAG_DRAWABLE_THEME]
+    #     if replace_tag.find('true') > -1:
+    #         replace_skin(current_packages[apkname])
+    #         pass
+
+    if ELEMENT_TAG_DOMAIN_SWITCH in boss2:
+        domain_switch_tag: str = boss2[ELEMENT_TAG_DOMAIN_SWITCH]
+        if domain_switch_tag.find('true') > -1:
+            replapce_domain(current_packages[apkname])
+
+    # if ELEMENT_TAG_DOMAIN_GROUP in boss2:
+    #     domain_dict: dict = boss2[ELEMENT_TAG_DOMAIN_GROUP]
+    #     for k, v in domain_dict.items():
+    #         replace_domain(k, v)
 
     if ELEMENT_TAG_UMENG_CHANNEL in boss2:
         umeng_channel_list: List[str] = boss2[ELEMENT_TAG_UMENG_CHANNEL]
@@ -662,24 +840,24 @@ def parseXML(decompile_element: ET.Element):
         if application_id_text and len(application_id_text) > 0:
             boss2[ELEMENT_TAG_APPLICATION_ID] = application_id_text
 
-    theme_element = decompile_element.find(ELEMENT_TAG_THEME)
-    if theme_element is not None and isinstance(theme_element, ET.Element):
-        isReplace: str = format_something(theme_element.attrib['isReplace'])
-        if isReplace and len(isReplace) > 0 and isReplace.startswith('true'):
-            subject_color_element = theme_element.find(ELEMENT_TAG_SUBJECT_COLOR)
-            notification_color_element = theme_element.find(ELEMENT_TAG_NOTIFICATION_COLOR)
-            theme = {}
-            if subject_color_element is not None and isinstance(subject_color_element, ET.Element):
-                subject_color_text: str = format_something(subject_color_element.text)
-                if subject_color_text and len(subject_color_text) > 0:
-                    theme[ELEMENT_TAG_SUBJECT_COLOR] = subject_color_text
-
-            if notification_color_element is not None and isinstance(notification_color_element, ET.Element):
-                notification_color_text: str = format_something(notification_color_element.text)
-                if notification_color_text and len(notification_color_text) > 0:
-                    theme[ELEMENT_TAG_NOTIFICATION_COLOR] = notification_color_text
-            if theme.__len__() > 0:
-                boss2[ELEMENT_TAG_THEME] = theme
+    # theme_element = decompile_element.find(ELEMENT_TAG_THEME)
+    # if theme_element is not None and isinstance(theme_element, ET.Element):
+    #     isReplace: str = format_something(theme_element.attrib['isReplace'])
+    #     if isReplace and len(isReplace) > 0 and isReplace.startswith('true'):
+    #         subject_color_element = theme_element.find(ELEMENT_TAG_SUBJECT_COLOR)
+    #         notification_color_element = theme_element.find(ELEMENT_TAG_NOTIFICATION_COLOR)
+    #         theme = {}
+    #         if subject_color_element is not None and isinstance(subject_color_element, ET.Element):
+    #             subject_color_text: str = format_something(subject_color_element.text)
+    #             if subject_color_text and len(subject_color_text) > 0:
+    #                 theme[ELEMENT_TAG_SUBJECT_COLOR] = subject_color_text
+    #
+    #         if notification_color_element is not None and isinstance(notification_color_element, ET.Element):
+    #             notification_color_text: str = format_something(notification_color_element.text)
+    #             if notification_color_text and len(notification_color_text) > 0:
+    #                 theme[ELEMENT_TAG_NOTIFICATION_COLOR] = notification_color_text
+    #         if theme.__len__() > 0:
+    #             boss2[ELEMENT_TAG_THEME] = theme
 
     app_name_element = decompile_element.find(ELEMENT_TAG_APP_NAME)
     if app_name_element is not None and isinstance(app_name_element, ET.Element):
@@ -711,6 +889,25 @@ def parseXML(decompile_element: ET.Element):
         if app_version_name_text and len(app_version_name_text) > 0:
             boss2[ELEMENT_TAG_APP_VERSION_NAME] = app_version_name_text
 
+    # drawable_theme_element = decompile_element.find(ELEMENT_TAG_DRAWABLE_THEME)
+    # if drawable_theme_element is not None and isinstance(drawable_theme_element, ET.Element):
+    #     drawable_theme_replace_tag: str = drawable_theme_element.attrib['isReplace']
+    #     if drawable_theme_replace_tag and len(drawable_theme_replace_tag) > 0 and drawable_theme_replace_tag.startswith('true'):
+    #         boss2[ELEMENT_TAG_DRAWABLE_THEME] = drawable_theme_replace_tag
+
+    skin_theme_element = decompile_element.find(ELEMENT_TAG_APP_THEME)
+    if skin_theme_element is not None and isinstance(skin_theme_element, ET.Element):
+        skin_theme_replace_tag: str = skin_theme_element.attrib['isReplace']
+        if skin_theme_replace_tag and len(skin_theme_replace_tag) > 0 and skin_theme_replace_tag.startswith('true'):
+            boss2[ELEMENT_TAG_APP_THEME] = skin_theme_replace_tag
+
+    # domain域名替换
+    domain_switch_ele = decompile_element.find(ELEMENT_TAG_DOMAIN_SWITCH)
+    if domain_switch_ele is not None and isinstance(domain_switch_ele, ET.Element):
+        domain_switch_tag: str = domain_switch_ele.attrib['switch']
+        if domain_switch_tag and len(domain_switch_tag) > 0 and domain_switch_tag.startswith('true'):
+            boss2[ELEMENT_TAG_DOMAIN_SWITCH] = domain_switch_tag
+
     # 支持中英文逗号
     umeng_channel_element = decompile_element.find(ELEMENT_TAG_UMENG_CHANNEL)
     if umeng_channel_element is not None and isinstance(umeng_channel_element, ET.Element):
@@ -720,18 +917,18 @@ def parseXML(decompile_element: ET.Element):
         if umeng_channel_text is not None and len(umeng_channel_text) > 0:
             boss2[ELEMENT_TAG_UMENG_CHANNEL] = umeng_channel_text.split(',')
 
-    domain_group_element = decompile_element.find(ELEMENT_TAG_DOMAIN_GROUP)
-    if domain_group_element is not None and isinstance(domain_group_element, ET.Element):
-        domain = {}
-        domain_temp = [ELEMENT_TAG_SERVER_HOST, ELEMENT_TAG_SERVER_HOST_TEMP, ELEMENT_TAG_RETRIEVE_HOST, ELEMENT_TAG_RETRIEVE_HOST_TEMP]
-        child: ET.Element
-        for i in range(len(list(domain_group_element))):
-            child = list(domain_group_element)[i]
-            content = format_something(child.text)
-            if domain_temp.__contains__(child.tag) and len(content) > 0:
-                domain[child.tag] = content
-            if i + 1 == len(list(domain_group_element)):
-                boss2[ELEMENT_TAG_DOMAIN_GROUP] = domain
+    # domain_group_element = decompile_element.find(ELEMENT_TAG_DOMAIN_GROUP)
+    # if domain_group_element is not None and isinstance(domain_group_element, ET.Element):
+    #     domain = {}
+    #     domain_temp = [ELEMENT_TAG_SERVER_HOST, ELEMENT_TAG_SERVER_HOST_TEMP, ELEMENT_TAG_RETRIEVE_HOST, ELEMENT_TAG_RETRIEVE_HOST_TEMP]
+    #     child: ET.Element
+    #     for i in range(len(list(domain_group_element))):
+    #         child = list(domain_group_element)[i]
+    #         content = format_something(child.text)
+    #         if domain_temp.__contains__(child.tag) and len(content) > 0:
+    #             domain[child.tag] = content
+    #         if i + 1 == len(list(domain_group_element)):
+    #             boss2[ELEMENT_TAG_DOMAIN_GROUP] = domain
 
     pass
 

@@ -401,7 +401,10 @@ def dicttest():
 
 
 def dicy():
-    print(dicy1())
+    # print(dicy1())
+    k = 'start.9.png'
+    v = os.path.split(k)
+    print(v)
     pass
 
 

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package>
-    <decompile target="10000_TCYJClient-skinPeeler-release_v3.3.1_20191016">
-        <application-id>com.hzsj.zxzdxz</application-id>
-        <theme isReplace="true">
-            <subject-color>#F24386</subject-color>
-            <notification-color>#F24386</notification-color>
-        </theme>
+    <!--decompile标签中的applicationID属性-->
+    <decompile target="10000_TCYJClient-skinPeeler-release_v3.3.1_20200113">
+        <application-id>com.selfoperate.bdifeast</application-id>
+<!--        <theme isReplace="true">-->
+<!--            <subject-color>#F24386</subject-color>-->
+<!--            <notification-color>#F24386</notification-color>-->
+<!--        </theme>-->
         <app-name>约陌聊天交友</app-name>
         <app-icon>3601181</app-icon>
         <splash-icon>loading2</splash-icon>
@@ -14,109 +15,12 @@
         <umeng-channel>
             111,222
         </umeng-channel>
-        <domain-group>
-            <server-host>http://as.huisut.cn:9800</server-host>
-            <server-host-temp>http://as.hstng.cn:9800</server-host-temp>
-            <retrieve-host>http://qs.hansix.cn:9800</retrieve-host>
-            <retrieve-host-temp>http://47.95.139.155:9800</retrieve-host-temp>
-        </domain-group>
+
+        <app-theme isReplace="true"/>
+
+        <!--默认false,即不开启域名替换任务-->
+        <domain-switch switch="true"/>
+
     </decompile>
 
 </package>
-
-
-        <!--
-
-
-        /** 服务器域名分组 */
-        def YHSTORE_DN = ["\"http://as.huisut.cn:9800\"", "\"http://as.hstng.cn:9800\"", "\"http://qs.hansix.cn:9800\"", "\"http://47.95.139.155:9800\""] as String[]   //约会商店
-        def XQSTORE_DN = ["\"http://as.huisuto.cn:9800\"", "\"http://as.hustong.cn:9800\"", "\"http://qs.hansitu.cn:9800\"", "\"http://47.95.181.40:9800\""] as String[]//相亲/闪婚商店
-        def KPSTORE_DN = ["\"http://as.huisuton.cn:9800\"", "\"http://as.hustng.cn:9800\"", "\"http://qs.hansiu.cn:9800\"", "\"http://123.57.112.26:9800\""] as String[]//卡牌/遇见/美约/泡泡/蜜聊商店
-        def ZYXXL_DN = ["\"http://as.huisto.cn:9800\"", "\"http://as.husutong.cn:9800\"", "\"http://qs.huansig.cn:9800\"", "\"http://47.95.139.123:9800\""] as String[] //自营信息流
-        def DZXXL_DN = ["\"http://as.dahec.cn:9800\"", "\"http://as.dahenc.cn:9800\"", "\"http://qs.husuto.cn:9800\"", "\"http://47.93.67.141:9800\""] as String[]      //定制信息流
-        def TYXXL_DN = ["\"http://as.dahnc.cn:9800\"", "\"http://as.daohc.cn:9800\"", "\"http://qs.husutg.cn:9800\"", "\"http://47.95.139.157:9800\""] as String[]      //通用信息流
-        def MXXX_DN = ["\"http://as.skend.cn:9800\"", "\"http://as.skende.cn:9800\"", "\"http://qs.zyweh.cn:9800\"", "\"http://47.93.68.91:9800\""] as String[]         //马翔线下
-        def DZXX_DN = ["\"http://as.saikde.cn:9800\"", "\"http://as.saikede.cn:9800\"", "\"http://qs.zyuwh.cn:9800\"", "\"http://47.95.181.15:9800\""] as String[]      //定制线下
-        def TYXX_DN = ["\"http://as.sakede.cn:9800\"", "\"http://as.saiknde.cn:9800\"", "\"http://qs.zhywh.cn:9800\"", "\"http://47.93.68.124:9800\""] as String[]      //通用线下
-        def QDDZ_DN = ["\"http://as.saikd.cn:9800\"", "\"http://as.sakende.cn:9800\"", "\"http://qs.zhuyua.cn:9800\"", "\"http://47.93.68.109:9800\""] as String[]      //渠道定制
-
-
-        YHSTORE_DN==约会商店
-        <server-host>http://as.huisut.cn:9800</server-host>
-        <server-host-temp>http://as.hstng.cn:9800</server-host-temp>
-        <retrieve-host>http://qs.hansix.cn:9800</retrieve-host>
-        <retrieve-host-temp>http://47.95.139.155:9800</retrieve-host-temp>
-
-        *******************************************************************
-
-        XQSTORE_DN==相亲/闪婚商店
-        <server-host>http://as.huisut.cn:9800</server-host>
-        <server-host-temp>http://as.hstng.cn:9800</server-host-temp>
-        <retrieve-host>http://qs.hansix.cn:9800</retrieve-host>
-        <retrieve-host-temp>http://47.95.139.155:9800</retrieve-host-temp>
-
-        *******************************************************************
-
-        KPSTORE_DN==卡牌/遇见/美约/泡泡/蜜聊商店
-        <server-host>http://as.huisut.cn:9800</server-host>
-        <server-host-temp>http://as.hstng.cn:9800</server-host-temp>
-        <retrieve-host>http://qs.hansix.cn:9800</retrieve-host>
-        <retrieve-host-temp>http://47.95.139.155:9800</retrieve-host-temp>
-
-        *******************************************************************
-
-        ZYXXL_DN==自营信息流
-        <server-host>http://as.huisut.cn:9800</server-host>
-        <server-host-temp>http://as.hstng.cn:9800</server-host-temp>
-        <retrieve-host>http://qs.hansix.cn:9800</retrieve-host>
-        <retrieve-host-temp>http://47.95.139.155:9800</retrieve-host-temp>
-
-        *******************************************************************
-
-        DZXXL_DN==定制信息流
-        <server-host>http://as.huisut.cn:9800</server-host>
-        <server-host-temp>http://as.hstng.cn:9800</server-host-temp>
-        <retrieve-host>http://qs.hansix.cn:9800</retrieve-host>
-        <retrieve-host-temp>http://47.95.139.155:9800</retrieve-host-temp>
-
-        *******************************************************************
-
-        TYXXL_DN==通用信息流
-        <server-host>http://as.huisut.cn:9800</server-host>
-        <server-host-temp>http://as.hstng.cn:9800</server-host-temp>
-        <retrieve-host>http://qs.hansix.cn:9800</retrieve-host>
-        <retrieve-host-temp>http://47.95.139.155:9800</retrieve-host-temp>
-
-        *******************************************************************
-
-        MXXX_DN==马翔线下
-        <server-host>http://as.huisut.cn:9800</server-host>
-        <server-host-temp>http://as.hstng.cn:9800</server-host-temp>
-        <retrieve-host>http://qs.hansix.cn:9800</retrieve-host>
-        <retrieve-host-temp>http://47.95.139.155:9800</retrieve-host-temp>
-
-        *******************************************************************
-
-        DZXX_DN==定制线下
-        <server-host>http://as.huisut.cn:9800</server-host>
-        <server-host-temp>http://as.hstng.cn:9800</server-host-temp>
-        <retrieve-host>http://qs.hansix.cn:9800</retrieve-host>
-        <retrieve-host-temp>http://47.95.139.155:9800</retrieve-host-temp>
-
-
-
-        TYXX_DN==通用线下
-        <server-host>http://as.huisut.cn:9800</server-host>
-        <server-host-temp>http://as.hstng.cn:9800</server-host-temp>
-        <retrieve-host>http://qs.hansix.cn:9800</retrieve-host>
-        <retrieve-host-temp>http://47.95.139.155:9800</retrieve-host-temp>
-
-        *******************************************************************
-
-        QDDZ_DN==渠道定制
-        <server-host>http://as.huisut.cn:9800</server-host>
-        <server-host-temp>http://as.hstng.cn:9800</server-host-temp>
-        <retrieve-host>http://qs.hansix.cn:9800</retrieve-host>
-        <retrieve-host-temp>http://47.95.139.155:9800</retrieve-host-temp>
-
-        -->

@@ -24,13 +24,13 @@ class Name_family:
 
     def append(self):
         output_apk_name = []
-        if self.appname:
+        if self.appname is not None and self.appname:
             output_apk_name.append(self.appname)
-        if self.app_icon:
+        if self.app_icon is not None and self.app_icon:
             output_apk_name.append(self.app_icon)
-        if self.splash_pic_name:
+        if self.splash_pic_name is not None and self.splash_pic_name:
             output_apk_name.append(self.splash_pic_name)
-        if self.umeng_channel:
+        if self.umeng_channel is not None and self.umeng_channel:
             output_apk_name.append(self.umeng_channel)
 
         if len(output_apk_name) > 0:
@@ -40,23 +40,19 @@ class Name_family:
 
     class Builder:
         def appname(self, appname):
-            if appname:
-                self.appname = appname
+            self.appname = appname
             return self
 
         def splash_picname(self, splash_pic_name):
-            if splash_pic_name:
-                self.splash_pic_name = splash_pic_name
+            self.splash_pic_name = splash_pic_name
             return self
 
         def app_icon(self, app_icon):
-            if app_icon:
-                self.app_icon = app_icon
+            self.app_icon = app_icon
             return self
 
         def umeng_channel(self, umeng_channel):
-            if umeng_channel:
-                self.umeng_channel = umeng_channel
+            self.umeng_channel = umeng_channel
             return self
 
         def build(self):
