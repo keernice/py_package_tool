@@ -26,7 +26,7 @@
 
 * 必须保证微信回调已用activity别名的方式替换（**微信回调的两个activity只使用一套，其它渠道下的src下的微信回调可删除**），如下:
 
-    ![image](https://github.com/keernice/py_package_tool/blob/master/IMG/8.jpg)
+    ![image](https://github.com/keernice/py_package_tool/raw/master/IMG/8.jpg)
     
     
 
